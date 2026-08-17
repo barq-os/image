@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: dnf
+install:
+  packages:
+    # Fedora 44 KDE uses Plasma Login Manager instead of SDDM.
+    - plasma-login-manager
+    - kcm-plasmalogin
+    # Required by the Barq Plymouth script theme.
+    - plymouth-plugin-script

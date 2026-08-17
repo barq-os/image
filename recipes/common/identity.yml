@@ -6,11 +6,14 @@ properties:
   ID: barq
   ID_LIKE: fedora
   NAME: Barq OS
+  VERSION: 0.1 (Development)
   PRETTY_NAME: Barq OS Development
   IMAGE_ID: barq
   IMAGE_VERSION: "0.1"
   VARIANT: KDE Plasma
   VARIANT_ID: barq-kde
+  LOGO: barq-os
+  ANSI_COLOR: "0;38;2;26;123;255"
   DEFAULT_HOSTNAME: barq
   HOME_URL: https://barqos.co
   DOCUMENTATION_URL: https://github.com/barq-os/image

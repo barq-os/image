@@ -1,0 +1,9 @@
+[Plymouth Theme]
+Name=Barq OS
+Description=Minimal Barq OS boot, shutdown and update experience
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/barq
+ScriptFile=/usr/share/plymouth/themes/barq/barq.script
+ConsoleLogBackgroundColor=0x050814

@@ -42,7 +42,18 @@ Fedora Atomic currently exposes deployment, update and rollback through `rpm-ost
 
 ## Identity
 
-`os-release` is applied near the end of the build. Barq sets `ID=barq`, `IMAGE_ID=barq` and `IMAGE_VERSION`, while preserving `ID_LIKE=fedora` and Fedora's `VERSION_ID` for base compatibility.
+`os-release` is applied near the end of the build. Barq sets the human-facing `VERSION`, `ID=barq`, `IMAGE_ID=barq`, `IMAGE_VERSION`, `LOGO=barq-os` and the Barq terminal color, while preserving `ID_LIKE=fedora` and Fedora's `VERSION_ID` for base compatibility.
+
+The identity layer is installed after RPM packages so distro package updates cannot overwrite Barq defaults during the same build. It provides:
+
+- Fedora 44 Plasma Login Manager defaults through `/usr/lib/plasmalogin/defaults.conf`
+- a Barq Dark KDE color scheme and a minimal look-and-feel package that falls back to Breeze components
+- one wallpaper shared by new Plasma sessions, PLM and the lock screen
+- a short Plasma session splash
+- a script-based Plymouth theme, selected before one final BlueBuild initramfs regeneration
+- KInfoCenter identity through `os-release` plus `ShowBuild=true`
+
+PLM does not support arbitrary SDDM-style QML themes. Barq therefore uses PLM's supported wallpaper and Plasma/KConfig integration instead of carrying an SDDM theme under a different name.
 
 ## Signing and Secure Boot
 
@@ -50,7 +61,7 @@ Cosign verifies the OCI image in the registry. UEFI Secure Boot verifies the dev
 
 ## Desktop direction
 
-Fedora 44 KDE installations use Plasma Login Manager and Plasma Setup. Barq is PLM-first; an SDDM theme is only a compatibility path for older deployments. Plasma Union remains experimental and is not a Barq 1.0 dependency.
+Fedora 44 KDE installations use Plasma Login Manager and Plasma Setup. Barq is PLM-first and does not ship an SDDM theme. Existing Fedora installations that deliberately retained SDDM are treated as a migration case, not as the visual baseline. Plasma Union remains experimental and is not a Barq 1.0 dependency.
 
 Barq Welcome should complement Plasma Setup rather than duplicate accounts, networking, language or time setup. Barq Control should use an unprivileged Kirigami interface and a narrow KAuth/polkit or D-Bus helper for privileged operations. Barq Updater is deferred until a tested gap remains after Discover, Flatpak and Atomic update integration.
 
