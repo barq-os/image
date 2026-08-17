@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+mode="${1:---image}"
+failures=0
+
+pass() {
+  printf 'PASS: %s\n' "$1"
+}
+
+fail() {
+  printf 'FAIL: %s\n' "$1" >&2
+  failures=$((failures + 1))
+}
+
+expect_os_release() {
+  local key="$1"
+  local expected="$2"
+  local actual
+
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  actual="${!key-}"
+
+  if [[ "$actual" == "$expected" ]]; then
+    pass "$key=$expected"
+  else
+    fail "$key expected '$expected', got '$actual'"
+  fi
+}
+
+expect_package() {
+  local package="$1"
+  if rpm -q "$package" >/dev/null 2>&1; then
+    pass "package $package"
+  else
+    fail "missing package $package"
+  fi
+}
+
+expect_command() {
+  local command_name="$1"
+  if command -v "$command_name" >/dev/null 2>&1; then
+    pass "command $command_name"
+  else
+    fail "missing command $command_name"
+  fi
+}
+
+expect_file_contains() {
+  local path="$1"
+  local pattern="$2"
+  if [[ -r "$path" ]] && grep -Fq "$pattern" "$path"; then
+    pass "$path contains $pattern"
+  else
+    fail "$path does not contain $pattern"
+  fi
+}
+
+expect_os_release ID barq
+expect_os_release ID_LIKE fedora
+expect_os_release VERSION_ID 44
+expect_os_release IMAGE_ID barq
+expect_os_release IMAGE_VERSION 0.1
+expect_os_release PRETTY_NAME "Barq OS Development"
+
+packages=(
+  gamemode
+  mangohud
+  gamescope
+  steam-devices
+  ntsync-autoload
+  flatpak
+  xdg-desktop-portal
+  xdg-desktop-portal-kde
+  selinux-policy-targeted
+  plasma-login-manager
+)
+
+for package in "${packages[@]}"; do
+  expect_package "$package"
+done
+
+for command_name in bootc flatpak rpm-ostree; do
+  expect_command "$command_name"
+done
+
+expect_file_contains /etc/issue "Barq OS"
+expect_file_contains /etc/xdg/kcm-about-distrorc "ShowBuild=true"
+expect_file_contains /etc/selinux/config "SELINUX=enforcing"
+
+if [[ "$mode" == "--live" ]]; then
+  if [[ "$(getenforce 2>/dev/null || true)" == "Enforcing" ]]; then
+    pass "SELinux runtime mode is Enforcing"
+  else
+    fail "SELinux runtime mode is not Enforcing"
+  fi
+
+  if [[ "${XDG_SESSION_TYPE-}" == "wayland" ]]; then
+    pass "desktop session uses Wayland"
+  else
+    fail "XDG_SESSION_TYPE expected 'wayland', got '${XDG_SESSION_TYPE-unset}'"
+  fi
+
+  if systemctl is-active --quiet plasmalogin.service; then
+    pass "Plasma Login Manager is active"
+  else
+    fail "plasmalogin.service is not active"
+  fi
+fi
+
+if (( failures > 0 )); then
+  printf '%d Barq OS image check(s) failed.\n' "$failures" >&2
+  exit 1
+fi
+
+printf 'All required Barq OS image checks passed (%s mode).\n' "$mode"

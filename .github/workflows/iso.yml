@@ -1,0 +1,87 @@
+name: installer ISO candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_digest:
+        description: Exact signed Barq OS digest (sha256:...)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: iso-candidate-${{ inputs.image_digest }}
+  cancel-in-progress: false
+
+jobs:
+  verify-image:
+    uses: ./.github/workflows/verify-image.yml
+    with:
+      image_digest: ${{ inputs.image_digest }}
+
+  build-iso:
+    name: Build signed ISO candidate
+    needs: verify-image
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_DIGEST: ${{ inputs.image_digest }}
+      ISO_NAME: Barq-OS-0.1-Development-x86_64.iso
+    steps:
+      - name: Check out installer policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate immutable image reference
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [[ ! "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+            echo "image_digest must be an exact sha256 digest" >&2
+            exit 1
+          fi
+
+      - name: Build installer ISO from verified digest
+        id: build
+        uses: JasonN3/build-container-installer@bed71f841c250650a70f1ed8315ba92da1591ba6 # pinned 2026-07-13
+        with:
+          arch: x86_64
+          image_name: barq
+          image_repo: ghcr.io/barq-os
+          image_src: docker://ghcr.io/barq-os/barq@${{ inputs.image_digest }}
+          image_signed: "true"
+          iso_name: build/${{ env.ISO_NAME }}
+          version: "44"
+          variant: Kinoite
+          enable_flatpak_dependencies: "false"
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Checksum and sign ISO
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          iso="${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}"
+          test -s "$iso"
+          sha256sum "$iso" > "${iso}.sha256"
+          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY --output-signature "${iso}.sig" "$iso"
+          cosign verify-blob --key cosign.pub --signature "${iso}.sig" "$iso"
+
+      - name: Upload ISO candidate
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: barq-os-0.1-development-iso-${{ github.run_id }}
+          path: |
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}-CHECKSUM
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}.sha256
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}.sig
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

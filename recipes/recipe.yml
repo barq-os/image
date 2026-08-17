@@ -19,5 +19,8 @@ modules:
   # Set Barq OS identity after all Fedora-aware build steps have completed.
   - from-file: common/identity.yml
 
+  # Fail the build if the assembled image no longer satisfies Barq's baseline.
+  - from-file: common/validation.yml
+
   # Keep signing last so the completed image carries Barq's verification policy.
   - type: signing
