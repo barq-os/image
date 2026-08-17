@@ -72,8 +72,8 @@ jobs:
           iso="${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}"
           test -s "$iso"
           sha256sum "$iso" > "${iso}.sha256"
-          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY --output-signature "${iso}.sig" "$iso"
-          cosign verify-blob --key cosign.pub --signature "${iso}.sig" "$iso"
+          cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY --bundle "${iso}.sigstore.json" "$iso"
+          cosign verify-blob --key cosign.pub --bundle "${iso}.sigstore.json" "$iso"
 
       - name: Upload ISO candidate
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -83,7 +83,7 @@ jobs:
             ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}
             ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}-CHECKSUM
             ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}.sha256
-            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}.sig
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}.sigstore.json
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
