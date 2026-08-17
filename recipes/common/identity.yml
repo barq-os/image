@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: os-release
+properties:
+  ID: barq
+  ID_LIKE: fedora
+  NAME: Barq OS
+  PRETTY_NAME: Barq OS Development
+  IMAGE_ID: barq
+  IMAGE_VERSION: "0.1"
+  VARIANT: KDE Plasma
+  VARIANT_ID: barq-kde
+  DEFAULT_HOSTNAME: barq
+  HOME_URL: https://barqos.co
+  DOCUMENTATION_URL: https://github.com/barq-os/image
+  SUPPORT_URL: https://github.com/barq-os/image/issues
+  BUG_REPORT_URL: https://github.com/barq-os/image/issues
