@@ -5,11 +5,44 @@ version: 1
 
 name: barq
 
-description: Barq OS development image
+description: Barq OS — a modern Linux operating system designed for gaming, performance, simplicity, and control.
 
 base-image: ghcr.io/blue-build/base-images/fedora-kinoite
-
 image-version: 44
 
 modules:
+  # Core gaming tools installed directly into the system image.
+  - type: dnf
+    install:
+      packages:
+        - gamemode
+        - mangohud
+        - gamescope
+
+  # Desktop gaming applications are installed from Flathub for each user.
+  # Keeping these as Flatpaks lets them update independently from the OS image.
+  - type: default-flatpaks
+    configurations:
+      - scope: user
+        notify: true
+        repo:
+          title: Flathub
+        install:
+          - com.valvesoftware.Steam
+          - com.heroicgameslauncher.hgl
+          - net.davidotek.pupgui2
+
+  # Barq OS identity. Keep ID_LIKE=fedora for compatibility with Fedora-aware tooling.
+  - type: os-release
+    properties:
+      ID: barq
+      ID_LIKE: fedora
+      NAME: Barq OS
+      PRETTY_NAME: Barq OS Development
+      HOME_URL: https://barqos.co
+      DOCUMENTATION_URL: https://github.com/barq-os/image
+      SUPPORT_URL: https://github.com/barq-os/image/issues
+      BUG_REPORT_URL: https://github.com/barq-os/image/issues
+
+  # Keep signing last so the completed image carries Barq's verification policy.
   - type: signing
