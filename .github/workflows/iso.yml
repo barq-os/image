@@ -16,21 +16,21 @@ permissions:
   packages: read
 
 concurrency:
-  group: iso-candidate-${{ inputs.image_digest || 'sha256:dc4fc4e64d9d0e8f4712669f04b9da388eb53299a65889e92a21b0d3dfd1e091' }}
+  group: iso-candidate-${{ inputs.image_digest || 'sha256:a15f98b3e2e46b06159b7424409cf47c7061cfd36054415b92fb8984b7839834' }}
   cancel-in-progress: false
 
 jobs:
   verify-image:
     uses: ./.github/workflows/verify-image.yml
     with:
-      image_digest: ${{ inputs.image_digest || 'sha256:dc4fc4e64d9d0e8f4712669f04b9da388eb53299a65889e92a21b0d3dfd1e091' }}
+      image_digest: ${{ inputs.image_digest || 'sha256:a15f98b3e2e46b06159b7424409cf47c7061cfd36054415b92fb8984b7839834' }}
 
   build-iso:
     name: Build signed ISO candidate
     needs: verify-image
     runs-on: ubuntu-latest
     env:
-      IMAGE_DIGEST: ${{ inputs.image_digest || 'sha256:dc4fc4e64d9d0e8f4712669f04b9da388eb53299a65889e92a21b0d3dfd1e091' }}
+      IMAGE_DIGEST: ${{ inputs.image_digest || 'sha256:a15f98b3e2e46b06159b7424409cf47c7061cfd36054415b92fb8984b7839834' }}
       ISO_NAME: Barq-OS-0.1-Development-x86_64.iso
     steps:
       - name: Check out installer policy
@@ -54,7 +54,7 @@ jobs:
           arch: x86_64
           image_name: barq
           image_repo: ghcr.io/barq-os
-          image_src: docker://ghcr.io/barq-os/barq@${{ inputs.image_digest || 'sha256:dc4fc4e64d9d0e8f4712669f04b9da388eb53299a65889e92a21b0d3dfd1e091' }}
+          image_src: docker://ghcr.io/barq-os/barq@${{ inputs.image_digest || 'sha256:a15f98b3e2e46b06159b7424409cf47c7061cfd36054415b92fb8984b7839834' }}
           image_signed: "true"
           iso_name: build/${{ env.ISO_NAME }}
           version: "44"
