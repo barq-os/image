@@ -1,0 +1,19 @@
+{
+  "KPackageStructure": "Plasma/LookAndFeel",
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "Barq OS contributors"
+      }
+    ],
+    "Category": "",
+    "Description": "Barq OS desktop defaults built on KDE Breeze",
+    "Description[ar]": "إعدادات سطح مكتب Barq OS المبنية على KDE Breeze",
+    "Id": "org.barq.desktop",
+    "License": "Apache-2.0",
+    "Name": "Barq OS",
+    "Name[ar]": "Barq OS",
+    "Version": "0.1",
+    "Website": "https://barqos.co"
+  }
+}

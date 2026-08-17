@@ -36,9 +36,11 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 ## 0.4 — Identity
 
 - [ ] Add the licensed master Barq Mark and variants
-- [ ] Verify KInfoCenter, TTY, Plasma Login Manager and Plasma Setup
-- [ ] Add wallpaper, color scheme and restrained Plasma defaults
-- [ ] Add Plymouth only after boot and rollback testing
+- [x] Add Fedora 44-correct PLM, KInfoCenter and TTY identity configuration
+- [x] Add wallpaper, Barq Dark color scheme and restrained Plasma defaults
+- [x] Add a Barq Plymouth theme with encryption/update prompt support and build-time initramfs regeneration
+- [ ] Verify Plymouth, PLM, KInfoCenter and Plasma Setup on VM and physical hardware
+- [ ] Replace the temporary typographic fallback with the licensed master Barq Mark
 
 ## 0.5 — Installation media
 

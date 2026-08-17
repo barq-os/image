@@ -1,0 +1,147 @@
+# SPDX-FileCopyrightText: 2026 Barq OS contributors
+# SPDX-License-Identifier: Apache-2.0
+
+# Barq OS Plymouth theme. It intentionally uses a typographic wordmark until
+# the licensed master Barq Mark is available.
+
+Window.SetBackgroundTopColor(0.0196, 0.0314, 0.0784);
+Window.SetBackgroundBottomColor(0.0431, 0.0706, 0.1255);
+
+brand.image = Image.Text("Barq OS", 0.9176, 0.9490, 1.0, 1.0, "Sans Bold 30");
+brand.sprite = Sprite(brand.image);
+brand.x = Window.GetX() + Window.GetWidth() / 2 - brand.image.GetWidth() / 2;
+brand.y = Window.GetY() + Window.GetHeight() * 0.44 - brand.image.GetHeight() / 2;
+brand.sprite.SetPosition(brand.x, brand.y, 100);
+
+boot_mode = Plymouth.GetMode();
+mode.text = "Starting...";
+if (boot_mode == "shutdown") mode.text = "Shutting down...";
+if (boot_mode == "reboot") mode.text = "Restarting...";
+if (boot_mode == "updates") mode.text = "Updating Barq OS";
+if (boot_mode == "system-upgrade") mode.text = "Upgrading Barq OS";
+if (boot_mode == "firmware-upgrade") mode.text = "Updating firmware";
+if (boot_mode == "system-reset") mode.text = "Resetting Barq OS";
+
+mode.image = Image.Text(mode.text, 0.6196, 0.6706, 0.7647, 1.0, "Sans 12");
+mode.sprite = Sprite(mode.image);
+mode.x = Window.GetX() + Window.GetWidth() / 2 - mode.image.GetWidth() / 2;
+mode.y = brand.y + brand.image.GetHeight() + 20;
+mode.sprite.SetPosition(mode.x, mode.y, 100);
+
+track.image = Image.Text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 0.0431, 0.0706, 0.1255, 1.0, "Sans 8");
+track.sprite = Sprite(track.image);
+track.x = Window.GetX() + Window.GetWidth() / 2 - track.image.GetWidth() / 2;
+track.y = mode.y + mode.image.GetHeight() + 26;
+track.sprite.SetPosition(track.x, track.y, 100);
+
+progress.original_image = Image.Text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 0.1020, 0.4824, 1.0, 1.0, "Sans 8");
+progress.sprite = Sprite();
+progress.sprite.SetPosition(track.x, track.y, 101);
+progress.last_width = 0;
+
+fun set_progress(value)
+  {
+    if (value < 0.02) value = 0.02;
+    if (value > 1) value = 1;
+
+    width = Math.Int(progress.original_image.GetWidth() * value);
+    if (width < 1) width = 1;
+
+    if (width != progress.last_width)
+      {
+        progress.image = progress.original_image.Crop(0, 0, width, progress.original_image.GetHeight());
+        progress.sprite.SetImage(progress.image);
+        progress.last_width = width;
+      }
+  }
+
+set_progress(0.02);
+
+message.sprite = Sprite();
+message.sprite.SetPosition(Window.GetX() + 28, Window.GetY() + Window.GetHeight() - 44, 1000);
+
+prompt.sprite = Sprite();
+prompt.entry_sprite = Sprite();
+
+fun clear_prompt()
+  {
+    prompt.sprite.SetOpacity(0);
+    prompt.entry_sprite.SetOpacity(0);
+  }
+
+fun show_prompt(prompt_text, entry_text)
+  {
+    prompt.image = Image.Text(prompt_text, 0.9176, 0.9490, 1.0, 1.0, "Sans 13");
+    prompt.sprite.SetImage(prompt.image);
+    prompt.sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2 - prompt.image.GetWidth() / 2,
+                              track.y + 34,
+                              1000);
+    prompt.sprite.SetOpacity(1);
+
+    prompt.entry_image = Image.Text(entry_text, 0.1333, 0.8431, 1.0, 1.0, "Sans 14");
+    prompt.entry_sprite.SetImage(prompt.entry_image);
+    prompt.entry_sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2 - prompt.entry_image.GetWidth() / 2,
+                                    track.y + 68,
+                                    1001);
+    prompt.entry_sprite.SetOpacity(1);
+  }
+
+fun display_normal_callback()
+  {
+    clear_prompt();
+    track.sprite.SetOpacity(1);
+    progress.sprite.SetOpacity(1);
+  }
+
+fun display_password_callback(prompt_text, bullets)
+  {
+    bullet_text = "";
+    for (index = 0; index < bullets; index++) bullet_text += "•";
+    if (bullets == 0) bullet_text = " ";
+    show_prompt(prompt_text, bullet_text);
+    track.sprite.SetOpacity(0);
+    progress.sprite.SetOpacity(0);
+  }
+
+fun display_question_callback(prompt_text, entry_text)
+  {
+    show_prompt(prompt_text, entry_text);
+    track.sprite.SetOpacity(0);
+    progress.sprite.SetOpacity(0);
+  }
+
+fun progress_callback(duration, value)
+  {
+    set_progress(value);
+  }
+
+fun system_update_callback(percent)
+  {
+    set_progress(percent / 100);
+  }
+
+fun display_message_callback(text)
+  {
+    message.image = Image.Text(text, 0.6196, 0.6706, 0.7647, 1.0, "Sans 10");
+    message.sprite.SetImage(message.image);
+    message.sprite.SetOpacity(1);
+  }
+
+fun hide_message_callback(text)
+  {
+    message.sprite.SetOpacity(0);
+  }
+
+fun quit_callback()
+  {
+    brand.sprite.SetOpacity(1);
+  }
+
+Plymouth.SetDisplayNormalFunction(display_normal_callback);
+Plymouth.SetDisplayPasswordFunction(display_password_callback);
+Plymouth.SetDisplayQuestionFunction(display_question_callback);
+Plymouth.SetBootProgressFunction(progress_callback);
+Plymouth.SetSystemUpdateFunction(system_update_callback);
+Plymouth.SetDisplayMessageFunction(display_message_callback);
+Plymouth.SetHideMessageFunction(hide_message_callback);
+Plymouth.SetQuitFunction(quit_callback);

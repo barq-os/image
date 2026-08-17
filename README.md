@@ -23,7 +23,10 @@ ghcr.io/barq-os/barq:latest
 - GameMode, MangoHud, Gamescope, Steam device rules and Fedora 44 NTSYNC integration
 - Steam, Heroic and ProtonUp-Qt as user-scoped Flatpaks
 - Inter, Noto Sans Arabic and JetBrains Mono from Fedora repositories
-- Barq OS identity while retaining `ID_LIKE=fedora` and Fedora's `VERSION_ID`
+- Fedora 44 Plasma Login Manager with Barq wallpaper and supported KConfig defaults
+- Barq Dark colors, Plasma defaults, session splash and lock-screen continuity
+- Barq Plymouth boot/update theme with initramfs regeneration
+- Barq OS identity and About System logo while retaining `ID_LIKE=fedora` and Fedora's `VERSION_ID`
 
 Steam on Flathub is a community package rather than a Valve-supported Linux package. Flatpak sandbox permissions and runtime extensions must be tested explicitly; a host MangoHud package does not automatically provide MangoHud inside Steam Flatpak.
 
@@ -60,6 +63,7 @@ See [installation and rollback instructions](docs/INSTALLATION.md).
 - [Architecture](docs/ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Brand reference](docs/BRAND.md)
+- [Fedora 44 identity implementation](docs/IDENTITY.md)
 - [Installation and rollback](docs/INSTALLATION.md)
 - [Release policy](docs/RELEASE_POLICY.md)
 - [Validation matrix](docs/TEST_MATRIX.md)
@@ -71,7 +75,7 @@ Game compatibility is title- and publisher-dependent. EAC and BattlEye require p
 
 ## Project status
 
-The development image builds and is published to GHCR. Digest-pinned image verification and ISO-candidate automation are available. VM/physical installation testing, hardware validation, master visual assets, NVIDIA strategy, beta/stable channels and first-party Barq applications remain release work.
+The development image builds and is published to GHCR. Digest-pinned image verification and ISO-candidate automation are available. VM and physical installation testing, hardware validation, the licensed master Barq Mark, NVIDIA strategy, beta/stable channels and first-party Barq applications remain release work. Until the master mark is supplied, system surfaces use an explicitly temporary typographic `Barq OS` fallback rather than a fabricated lightning symbol.
 
 ## License
 

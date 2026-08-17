@@ -1,2 +1,7 @@
 [General]
+LogoPath=barq-os
+Name=Barq OS
+Version=0.1 Development
+Variant=KDE Plasma
+Website=https://barqos.co
 ShowBuild=true

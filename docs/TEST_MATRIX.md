@@ -6,9 +6,12 @@ A successful CI build proves that the image can be assembled. It does not prove 
 |---|---|---|
 | Build | Complete recipe | BlueBuild succeeds; image-content checks run before signing |
 | Published image | Exact OCI digest | Cosign verification, installed image check and `bootc container lint` pass |
-| Identity | `hostnamectl`, KInfoCenter, TTY | Barq OS is visible; `ID_LIKE=fedora` and `VERSION_ID=44` remain |
+| Identity | `hostnamectl`, KInfoCenter, TTY | Barq OS and the temporary Barq fallback logo are visible; `ID_LIKE=fedora` and `VERSION_ID=44` remain |
 | Security baseline | Booted deployment | SELinux is Enforcing, Plasma uses Wayland and required portals are installed |
-| Boot | UEFI; Secure Boot on/off | Reaches Plasma Login Manager and a Wayland session |
+| Plymouth | Boot, shutdown, reboot, LUKS prompt, offline update | Barq theme renders; text/input remains usable; no silent black screen |
+| Login | Plasma Login Manager on one and two displays | Barq wallpaper/colors render; login, session selection and power actions work |
+| Plasma | Fresh user and existing user | New user gets Barq defaults; an existing user's chosen wallpaper/theme is not reset |
+| Boot | UEFI; Secure Boot on/off | Reaches Plasma Login Manager and a Plasma Wayland session |
 | Update | Digest N to N+1 | New deployment boots and user data remains intact |
 | Rollback | After a tested update | Previous deployment boots without data loss |
 | GPU | AMD and Intel baseline | Vulkan, suspend/resume and multi-monitor pass |

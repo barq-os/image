@@ -1,0 +1,13 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "Barq OS contributors"
+      }
+    ],
+    "Id": "Barq",
+    "License": "Apache-2.0",
+    "Name": "Barq — Energy in motion",
+    "Name[ar]": "برق — طاقة في حركة"
+  }
+}

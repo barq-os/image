@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Barq OS contributors -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+  <defs>
+    <radialGradient id="surface" cx="76%" cy="46%" r="72%">
+      <stop offset="0" stop-color="#0B1220"/>
+      <stop offset="0.58" stop-color="#070C19"/>
+      <stop offset="1" stop-color="#050814"/>
+    </radialGradient>
+    <linearGradient id="motionBlue" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#1A7BFF" stop-opacity="0"/>
+      <stop offset="0.48" stop-color="#1A7BFF" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#1A7BFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="motionCyan" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#22D7FF" stop-opacity="0"/>
+      <stop offset="0.52" stop-color="#22D7FF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#22D7FF" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M120 0H0V120" fill="none" stroke="#EAF2FF" stroke-opacity="0.025" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="3840" height="2160" fill="url(#surface)"/>
+  <rect width="3840" height="2160" fill="url(#grid)"/>
+
+  <path d="M-240 2050C730 1890 1070 1090 1900 980C2630 884 3100 1070 4100 160"
+        fill="none" stroke="url(#motionBlue)" stroke-width="190" stroke-linecap="round"/>
+  <path d="M-180 2190C760 1960 1120 1260 1970 1130C2760 1010 3230 1140 4070 390"
+        fill="none" stroke="url(#motionCyan)" stroke-width="42" stroke-linecap="round"/>
+  <path d="M560 2160L2610 0" fill="none" stroke="#1A7BFF" stroke-opacity="0.07" stroke-width="2"/>
+  <path d="M940 2160L2990 0" fill="none" stroke="#22D7FF" stroke-opacity="0.04" stroke-width="1"/>
+
+  <rect x="176" y="1940" width="180" height="8" rx="4" fill="#1A7BFF"/>
+  <rect x="368" y="1940" width="48" height="8" rx="4" fill="#22D7FF" fill-opacity="0.72"/>
+</svg>
