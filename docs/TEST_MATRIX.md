@@ -1,11 +1,13 @@
 # Barq OS — Validation matrix
 
-A successful CI build proves that the image can be assembled. It does not prove hardware, game, suspend, display, controller, installation, or rollback compatibility.
+A successful CI build proves that the image can be assembled. It does not prove hardware, game, suspend, display, controller, installation or rollback compatibility.
 
 | Gate | Minimum scope | Pass condition |
 |---|---|---|
-| Build | Complete recipe | BlueBuild succeeds and the published digest verifies |
+| Build | Complete recipe | BlueBuild succeeds; image-content checks run before signing |
+| Published image | Exact OCI digest | Cosign verification, installed image check and `bootc container lint` pass |
 | Identity | `hostnamectl`, KInfoCenter, TTY | Barq OS is visible; `ID_LIKE=fedora` and `VERSION_ID=44` remain |
+| Security baseline | Booted deployment | SELinux is Enforcing, Plasma uses Wayland and required portals are installed |
 | Boot | UEFI; Secure Boot on/off | Reaches Plasma Login Manager and a Wayland session |
 | Update | Digest N to N+1 | New deployment boots and user data remains intact |
 | Rollback | After a tested update | Previous deployment boots without data loss |
@@ -15,7 +17,11 @@ A successful CI build proves that the image can be assembled. It does not prove 
 | Flatpak | Steam, Heroic, ProtonUp-Qt | Install, update, external storage and sandbox behavior documented |
 | Controllers | Xbox, DualSense/DualShock, Nintendo where available | USB/Bluetooth, reconnect and resume pass |
 | Arabic | Plasma, Discover, Barq surfaces | No clipping; correct RTL order and readable fonts |
-| ISO | VM and physical device | Boot, install, encryption, first update and rollback pass |
+| ISO | Exact signed digest; VM and physical device | Signature, boot, install, encryption, first update and rollback pass |
+
+## Automation boundary
+
+The build-time script validates the assembled filesystem. The published-image workflow validates a signed immutable digest in a container and runs `bootc container lint`. Neither check replaces a real UEFI boot, installer, update or rollback test.
 
 ## Hardware report
 

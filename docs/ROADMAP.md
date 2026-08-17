@@ -11,6 +11,8 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 - [x] Verify the downloaded BlueBuild CLI
 - [x] Add push retry and PR-safe publish behavior
 - [x] Add security, release, installation and validation policy
+- [x] Execute image-content validation before signing
+- [x] Verify an exact published digest with Cosign and `bootc container lint`
 
 ## 0.2 — Gaming foundation
 
@@ -40,11 +42,13 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 
 ## 0.5 — Installation media
 
-- [ ] Generate ISO from an exact signed development digest
+- [x] Add a candidate ISO workflow requiring an exact signed development digest
+- [x] Produce checksum and Cosign signature alongside each candidate
+- [ ] Generate and preserve a candidate from a release-approved digest
 - [ ] Test UEFI and Secure Boot on/off
 - [ ] Test partitioning, encryption and Plasma Setup
 - [ ] Test first update, rollback and reinstall
-- [ ] Publish checksum, signature, requirements and recovery documentation
+- [ ] Publish requirements, hosting and recovery documentation
 
 ## 0.6 — NVIDIA
 
