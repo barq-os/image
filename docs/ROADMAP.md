@@ -1,108 +1,76 @@
-# Barq OS — Development Roadmap
+# Barq OS — Development roadmap
 
-This roadmap defines the order of work for Barq OS. It is intentionally conservative: the project should become a reliable operating system before adding complex Barq-specific gaming automation.
+The roadmap is gate-driven. Dates never override build, hardware, rollback, security or installer blockers.
 
-## 0.1 — Base image
+## 0.1 — Hardening
 
-- [x] Create `barq-os` GitHub organization
-- [x] Create core `image` repository
-- [x] Build from Fedora Kinoite / KDE Plasma
-- [x] Configure Cosign signing
-- [x] Publish the image to GHCR
-- [x] Replace template documentation with Barq documentation
+- [x] Fedora Kinoite 44 BlueBuild base
+- [x] Signed development image on GHCR
+- [x] Split recipe and late identity module
+- [x] Pin BlueBuild Action v1.12.0 by full commit SHA
+- [x] Verify the downloaded BlueBuild CLI
+- [x] Add push retry and PR-safe publish behavior
+- [x] Add security, release, installation and validation policy
 
 ## 0.2 — Gaming foundation
 
-- [x] Add GameMode
-- [x] Add MangoHud
-- [x] Add Gamescope
-- [x] Configure Steam
-- [x] Configure Heroic Games Launcher
-- [x] Configure ProtonUp-Qt
-- [ ] Validate a successful image build
-- [ ] Test Steam + Proton on hardware
-- [ ] Test Heroic
-- [ ] Test controllers
+- [x] GameMode, MangoHud and Gamescope
+- [x] Steam, Heroic and ProtonUp-Qt
+- [x] `steam-devices` host rules
+- [x] Fedora 44 `ntsync-autoload` integration
+- [ ] Validate Steam Flatpak ↔ GameMode D-Bus behavior
+- [ ] Select and test the matching MangoHud Flatpak runtime extension
+- [ ] Test external Steam libraries and Flatpak permissions
+- [ ] Publish a small supported/unsupported game matrix including anti-cheat limits
 
-## 0.3 — System identity
+## 0.3 — Validation
 
-- [x] Set Barq OS metadata in `os-release`
-- [ ] Verify KDE About/System Information presentation
-- [ ] Remove or replace remaining upstream branding where appropriate and legally permitted
-- [ ] Add Barq system information assets
+- [ ] VM boot, update and rollback
+- [ ] Two AMD/Intel physical-device reports
+- [ ] Controller, audio and suspend/resume results
+- [ ] Multi-monitor and VRR results
+- [ ] Arabic and English UI QA
 
-## 0.4 — Visual identity
+## 0.4 — Identity
 
-- [ ] Add the master Barq Mark asset
-- [ ] Add Barq wallpaper set
-- [ ] Create KDE color scheme from Electric Minimalism tokens
-- [ ] Create Plasma theme defaults
-- [ ] Create SDDM login experience
-- [ ] Create Plymouth boot experience
+- [ ] Add the licensed master Barq Mark and variants
+- [ ] Verify KInfoCenter, TTY, Plasma Login Manager and Plasma Setup
+- [ ] Add wallpaper, color scheme and restrained Plasma defaults
+- [ ] Add Plymouth only after boot and rollback testing
 
-## 0.5 — Hardware validation
+## 0.5 — Installation media
 
-- [ ] AMD GPU test matrix
-- [ ] Intel GPU test matrix
-- [ ] NVIDIA strategy and test image
-- [ ] Wi-Fi and Bluetooth testing
-- [ ] Audio testing
-- [ ] Multi-monitor testing
-- [ ] VRR testing where supported
-- [ ] Suspend/resume testing
-- [ ] Controller testing
+- [ ] Generate ISO from an exact signed development digest
+- [ ] Test UEFI and Secure Boot on/off
+- [ ] Test partitioning, encryption and Plasma Setup
+- [ ] Test first update, rollback and reinstall
+- [ ] Publish checksum, signature, requirements and recovery documentation
 
-## 0.6 — First-party experience
+## 0.6 — NVIDIA
 
-- [ ] Barq Welcome
-- [ ] Barq Control
-- [ ] Barq Updater
-- [ ] Arabic + RTL QA
-- [ ] English QA
+- [ ] Select a supported base and separate `barq-nvidia` recipe
+- [ ] Define driver, kernel and Secure Boot/MOK policy
+- [ ] Test updates, rollback, Wayland, Vulkan, suspend and multi-monitor
 
-## 0.7 — Installation media
+## 0.7 — First-party experience
 
-- [ ] Generate a bootable Barq ISO
-- [ ] Test clean installation in a VM
-- [ ] Test clean installation on physical hardware
-- [ ] Document system requirements
-- [ ] Document installation and recovery
+- [ ] Barq Welcome that complements Plasma Setup
+- [ ] Barq Control using Kirigami and a narrow privileged helper
+- [ ] Reassess Barq Updater only after documenting a concrete Discover gap
 
-## 0.8 — Update channels
+## 0.8 — Channels
 
-- [ ] Development channel
-- [ ] Beta channel
-- [ ] Stable channel
-- [ ] Test upgrade and rollback paths
-- [ ] Publish release notes and known issues
-
-## 0.9 — Public beta
-
-- [ ] Feature freeze
-- [ ] Bug triage
-- [ ] Hardware community testing
-- [ ] Security and licensing review
-- [ ] Website download flow
-- [ ] Documentation review
+- [ ] Promote exact digests through dev → beta → stable
+- [ ] Publish known issues and hardware results
+- [ ] Test upgrade and rollback across channel transitions
 
 ## 1.0 — Fajr / فجر
 
-- [ ] Release candidate
-- [ ] Stable signed image
-- [ ] Stable installer ISO
-- [ ] Barq Updater ready
-- [ ] Release notes
-- [ ] Public documentation
-- [ ] Launch Barq OS 1.0 — Fajr
+- [ ] No open release blockers
+- [ ] Supported signed stable image
+- [ ] Supported installer ISO
+- [ ] Published support window, release notes and recovery path
 
-## Later ideas
+## Deferred experiments
 
-These are explicitly not required for the first release:
-
-- automatic hardware/game optimization engine
-- advanced gaming session / console mode
-- per-game performance profiles
-- dynamic upscaling automation
-- custom kernel experiments
-
-They should only be considered after the core OS is stable and maintainable.
+Custom kernels, automatic overclocking, AI optimizers, Plasma Union as a foundation, console mode and automatic per-game tuning are not required for 1.0.

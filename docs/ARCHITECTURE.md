@@ -2,99 +2,62 @@
 
 ## Overview
 
-Barq OS is an image-based Linux operating system built with BlueBuild on a Fedora Kinoite / KDE Plasma foundation.
-
-The project intentionally separates the operating-system image from user applications where practical. Core system components belong in the image; suitable desktop applications can be delivered through Flatpak so they can update independently.
-
-## Build flow
+Barq OS is a bootable, image-based Linux desktop built with BlueBuild on Fedora Kinoite and KDE Plasma. The product identity is Barq OS; Fedora remains the technical compatibility base.
 
 ```text
-GitHub repository
-      ↓
-BlueBuild recipe
-      ↓
-GitHub Actions
-      ↓
-Signed Barq OS image
-      ↓
-GitHub Container Registry
-      ↓
-Atomic system update / rebase
+recipes + files/system + policy
+              ↓
+        BlueBuild CI
+              ↓
+      signed OCI image
+              ↓
+             GHCR
+              ↓
+  install / rebase / update / rollback
 ```
 
-Current image:
+Current development image:
 
 ```text
 ghcr.io/barq-os/barq:latest
 ```
 
-## Base
+## Layers
 
-- Fedora major version: controlled by `recipes/recipe.yml`
-- Desktop family: Fedora Kinoite
-- Desktop environment: KDE Plasma
-- Display stack: Wayland-first
-- Build system: BlueBuild
-- Image signing: Sigstore Cosign
+### Host image
 
-## Package layers
+KDE, drivers, system services, GameMode, Gamescope, MangoHud, `steam-devices`, `ntsync-autoload`, fonts, udev rules and Barq identity belong to the host image.
 
-### Core image
+### Flatpak
 
-Packages that need close integration with the host operating system belong in the image. The first gaming foundation includes:
+Steam, Heroic and ProtonUp-Qt are user-scoped Flatpaks so applications can update independently. Flatpak sandbox permissions and matching runtime extensions remain explicit test boundaries.
 
-- GameMode
-- MangoHud
-- Gamescope
+### User and development data
 
-### Flatpak applications
+User data belongs in `/var/home`. Development tools should normally use Toolbx or Distrobox instead of permanently layering toolchains into the operating-system image.
 
-Desktop applications that benefit from independent updates are configured as Flatpaks. The first gaming application set includes:
+## Update implementation
 
-- Steam
-- Heroic Games Launcher
-- ProtonUp-Qt
-
-## Update model
-
-Barq OS follows an atomic image update model.
-
-The intended lifecycle is:
-
-```text
-Upstream changes
-      ↓
-Barq image build
-      ↓
-Validation
-      ↓
-Development
-      ↓
-Beta
-      ↓
-Stable
-```
-
-Major Fedora transitions are controlled by the project instead of happening implicitly.
-
-A future Barq Updater application should be a user-facing interface over the existing atomic update mechanisms and Flatpak updates rather than a replacement package manager.
+Fedora Atomic currently exposes deployment, update and rollback through `rpm-ostree`; the underlying bootable-container direction increasingly uses bootc. Documentation must describe the behavior actually present in the selected base image rather than claiming that installing either command converts a mutable Fedora system.
 
 ## Identity
 
-Barq OS sets its own operating-system identity while preserving `ID_LIKE=fedora` for compatibility with tooling that expects a Fedora-derived system.
+`os-release` is applied near the end of the build. Barq sets `ID=barq`, `IMAGE_ID=barq` and `IMAGE_VERSION`, while preserving `ID_LIKE=fedora` and Fedora's `VERSION_ID` for base compatibility.
 
-The project is independent and should not present itself as an official Fedora or KDE product.
+## Signing and Secure Boot
 
-## Future components
+Cosign verifies the OCI image in the registry. UEFI Secure Boot verifies the device boot chain and kernel modules. These are separate controls; a valid image signature is not proof that local third-party modules are enrolled or trusted.
 
-Planned first-party components include:
+## Desktop direction
 
-- Barq Welcome
-- Barq Control
-- Barq Updater
-- Barq branding for KDE
-- Barq SDDM login theme
-- Barq Plymouth boot theme
-- Barq wallpapers and icon assets
+Fedora 44 KDE installations use Plasma Login Manager and Plasma Setup. Barq is PLM-first; an SDDM theme is only a compatibility path for older deployments. Plasma Union remains experimental and is not a Barq 1.0 dependency.
 
-Each component should be introduced only after the base image remains buildable and testable.
+Barq Welcome should complement Plasma Setup rather than duplicate accounts, networking, language or time setup. Barq Control should use an unprivileged Kirigami interface and a narrow KAuth/polkit or D-Bus helper for privileged operations. Barq Updater is deferred until a tested gap remains after Discover, Flatpak and Atomic update integration.
+
+## Hardware
+
+AMD and Intel follow Fedora's kernel and Mesa updates. NVIDIA must not be injected into the generic image without a separate supported recipe, driver/Secure Boot design and hardware matrix.
+
+## Release model
+
+Development, beta and stable channels promote the same tested digest instead of rebuilding different bits. See `RELEASE_POLICY.md` and `TEST_MATRIX.md`.

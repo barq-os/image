@@ -7,3 +7,7 @@ install:
     - gamemode
     - mangohud
     - gamescope
+    # Host integration for controllers, handhelds and Steam-related VR hardware.
+    - steam-devices
+    # Fedora 44 module autoload integration used by modern Wine/Proton paths.
+    - ntsync-autoload
