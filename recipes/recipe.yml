@@ -30,5 +30,8 @@ modules:
   - from-file: common/identity.yml
   - from-file: common/identity-validation.yml
 
+  # Fail the build if the assembled image no longer satisfies Barq's baseline.
+  - from-file: common/validation.yml
+
   # Keep signing last so the completed image carries Barq's verification policy.
   - type: signing

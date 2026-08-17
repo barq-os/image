@@ -1,0 +1,62 @@
+name: verify published image
+
+on:
+  workflow_call:
+    inputs:
+      image_digest:
+        description: Exact signed Barq OS digest (sha256:...)
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      image_digest:
+        description: Exact signed Barq OS digest (sha256:...)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: verify-image-${{ inputs.image_digest }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify signed image and runtime checks
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_DIGEST: ${{ inputs.image_digest }}
+      IMAGE_REF: ghcr.io/barq-os/barq@${{ inputs.image_digest }}
+    steps:
+      - name: Check out verification policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate immutable image reference
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [[ ! "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+            echo "image_digest must be an exact sha256 digest" >&2
+            exit 1
+          fi
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Verify Barq OS signature
+        shell: bash
+        run: cosign verify --key cosign.pub "$IMAGE_REF"
+
+      - name: Pull exact image
+        shell: bash
+        run: docker pull "$IMAGE_REF"
+
+      - name: Execute image checks
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          docker run --rm --privileged --entrypoint /bin/bash "$IMAGE_REF" -lc '/usr/libexec/barq-os/image-smoke-test --image && bootc container lint'

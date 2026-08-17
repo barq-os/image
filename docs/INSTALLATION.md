@@ -30,12 +30,14 @@ sudo rpm-ostree rebase \
 sudo systemctl reboot
 ```
 
-Confirm the deployment and run the repository smoke test:
+Confirm the deployment and run the installed live validation:
 
 ```bash
 rpm-ostree status
-bash tests/smoke.sh
+sudo /usr/libexec/barq-os/image-smoke-test --live
 ```
+
+The live check validates Barq identity, required host components, SELinux enforcing mode, Wayland and Plasma Login Manager. The image build also executes the non-live portion before signing.
 
 ## Rollback
 
@@ -46,6 +48,13 @@ sudo rpm-ostree rollback
 sudo systemctl reboot
 ```
 
-## ISO status
+## ISO candidate workflow
 
-A supported Barq installer ISO has not been published yet. Do not present a locally generated ISO as an official release until it passes the release gates in `TEST_MATRIX.md` and `RELEASE_POLICY.md`.
+The `installer ISO candidate` workflow accepts only an exact `sha256:` image digest. It first calls the published-image workflow, verifies the image with `cosign.pub`, executes the image checks and `bootc container lint`, then builds the ISO and produces:
+
+- the installer ISO;
+- the installer's generated checksum;
+- a normalized SHA-256 file;
+- a Cosign signature for the ISO.
+
+Artifacts expire after 14 days and remain development candidates. Do not present an artifact as an official release until it passes the ISO, VM and physical-device gates in `TEST_MATRIX.md` and `RELEASE_POLICY.md`.

@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   bluebuild:
-    name: Build Barq OS
+    name: Build and validate Barq OS
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -35,6 +35,16 @@ jobs:
         recipe:
           - recipe.yml
     steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate test script syntax
+        run: |
+          bash -n tests/smoke.sh
+          bash -n files/system/usr/libexec/barq-os/image-smoke-test
+
       - name: Build Barq OS image
         uses: blue-build/github-action@836161eb076426a451e6a0054f722b1153b8b3ad # v1.12.0
         with:
@@ -46,6 +56,4 @@ jobs:
           verify_install: true
           retry_push_count: 3
           maximize_build_space: true
-
-      - name: Validate deployment smoke test
-        run: bash -n tests/smoke.sh
+          skip_checkout: true

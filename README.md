@@ -30,6 +30,22 @@ ghcr.io/barq-os/barq:latest
 
 Steam on Flathub is a community package rather than a Valve-supported Linux package. Flatpak sandbox permissions and runtime extensions must be tested explicitly; a host MangoHud package does not automatically provide MangoHud inside Steam Flatpak.
 
+## Validation
+
+Every image build executes the installed Barq image check after identity changes and before signing. A separate workflow accepts an exact published digest, verifies its Cosign signature, executes the image check inside that immutable image and runs `bootc container lint`.
+
+On a booted Barq deployment, run:
+
+```bash
+sudo /usr/libexec/barq-os/image-smoke-test --live
+```
+
+This adds live SELinux, Wayland and Plasma Login Manager checks. It does not replace the VM and physical-device gates.
+
+## Installer ISO candidates
+
+The manual `installer ISO candidate` workflow builds only from an exact signed `sha256:` image digest. It uploads the ISO, checksums and Cosign signature as a short-lived development artifact. No candidate is an official installer until it passes the documented UEFI, Secure Boot, encryption, update and rollback gates.
+
 ## Before testing
 
 Rebasing is supported only from an existing Fedora Atomic Desktop or compatible derivative. This command must already work and show an OSTree deployment:
@@ -59,7 +75,7 @@ Game compatibility is title- and publisher-dependent. EAC and BattlEye require p
 
 ## Project status
 
-The development image builds and is published to GHCR. Hardware validation, the licensed master Barq Mark, supported installation media, NVIDIA strategy, beta/stable channels and first-party Barq applications remain release work. Until the master mark is supplied, system surfaces use an explicitly temporary typographic `Barq OS` fallback rather than a fabricated lightning symbol.
+The development image builds and is published to GHCR. Digest-pinned image verification and ISO-candidate automation are available. VM and physical installation testing, hardware validation, the licensed master Barq Mark, NVIDIA strategy, beta/stable channels and first-party Barq applications remain release work. Until the master mark is supplied, system surfaces use an explicitly temporary typographic `Barq OS` fallback rather than a fabricated lightning symbol.
 
 ## License
 
