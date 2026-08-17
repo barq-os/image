@@ -2,87 +2,61 @@
 
 [![BlueBuild](https://github.com/barq-os/image/actions/workflows/build.yml/badge.svg)](https://github.com/barq-os/image/actions/workflows/build.yml)
 
-**Built for the way you play.**
+**Built for the way you play.**  
+**مصمم لطريقتك في اللعب.**
 
-Barq OS is a modern Linux operating system for PC, built with a strong focus on gaming, performance, simplicity, and control.
-
-The name **Barq** comes from the Arabic word **برق**, meaning **lightning**. It reflects the idea behind the system: fast response, smooth use, and a clean experience without unnecessary complexity.
-
-## What is Barq OS?
-
-Barq OS is an independent Linux project built for people who want a complete desktop operating system that is ready for gaming while still being suitable for everyday use.
-
-It is based on Fedora Atomic technologies, uses KDE Plasma as its desktop environment, and is built as an image-based system with BlueBuild.
-
-The goal is to provide a system that is:
-
-- Ready for gaming
-- Fast and responsive
-- Easy to use
-- Reliable to update
-- Flexible and customizable
-- Suitable for both Arabic and international users
-
-## Gaming
-
-Barq OS is being built with gaming as a core part of the system.
-
-The project includes support for tools and platforms such as Steam, Proton, GameMode, MangoHud, Gamescope, Heroic Games Launcher, controllers, and modern Linux graphics technologies.
-
-The focus is on making the gaming experience simple and practical without requiring the user to configure everything manually.
-
-## System foundation
-
-Barq OS uses an Atomic, image-based system design. This allows system updates to be delivered as complete system images instead of modifying the operating system package by package.
-
-This approach is intended to make updates more predictable and to allow recovery to a previous system deployment when needed.
+Barq OS is a Fedora Atomic/Kinoite-derived KDE Plasma desktop focused on gaming, performance, everyday use, freedom and control. It is an independent project and is not an official Fedora, KDE, Valve or BlueBuild product.
 
 ## Current development image
-
-The current development image is published at:
 
 ```text
 ghcr.io/barq-os/barq:latest
 ```
 
 > [!WARNING]
-> Barq OS is currently under active development. Development builds may change frequently and should be tested carefully before use on important hardware.
+> Barq OS is in active development. `latest` is a moving development tag and has not completed the public-beta hardware and installer gates.
 
-## Testing
+## Foundation
 
-On a compatible Fedora Atomic installation, the current Barq OS development image can be tested with:
+- Fedora Atomic/Kinoite base with KDE Plasma and Wayland
+- Reproducible BlueBuild recipe and signed OCI image
+- GameMode, MangoHud, Gamescope, Steam device rules and Fedora 44 NTSYNC integration
+- Steam, Heroic and ProtonUp-Qt as user-scoped Flatpaks
+- Inter, Noto Sans Arabic and JetBrains Mono from Fedora repositories
+- Barq OS identity while retaining `ID_LIKE=fedora` and Fedora's `VERSION_ID`
 
-```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/barq-os/barq:latest
-sudo systemctl reboot
-```
+Steam on Flathub is a community package rather than a Valve-supported Linux package. Flatpak sandbox permissions and runtime extensions must be tested explicitly; a host MangoHud package does not automatically provide MangoHud inside Steam Flatpak.
 
-After the first reboot, switch to the signed image:
+## Before testing
 
-```bash
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/barq-os/barq:latest
-sudo systemctl reboot
-```
-
-Check the active deployment with:
+Rebasing is supported only from an existing Fedora Atomic Desktop or compatible derivative. This command must already work and show an OSTree deployment:
 
 ```bash
 rpm-ostree status
 ```
 
+A normal Fedora KDE installation is not Atomic. Installing `rpm-ostree` manually does not convert it. Use a Fedora Kinoite installation, a virtual machine, or wait for a tested Barq installer ISO.
+
+See [installation and rollback instructions](docs/INSTALLATION.md).
+
+## Project documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Brand reference](docs/BRAND.md)
+- [Installation and rollback](docs/INSTALLATION.md)
+- [Release policy](docs/RELEASE_POLICY.md)
+- [Validation matrix](docs/TEST_MATRIX.md)
+- [Security policy](SECURITY.md)
+
+## Gaming support boundaries
+
+Game compatibility is title- and publisher-dependent. EAC and BattlEye require per-title enablement by the publisher, and kernel-space anti-cheat solutions are not supported through Proton. Barq OS does not claim that every game works.
+
 ## Project status
 
-Barq OS is still in early development. The core system image is working and the project is now being expanded with gaming software, system branding, installation media, hardware testing, and first-party tools.
-
-## Independence
-
-Barq OS is an independent Linux project. It uses open-source technologies from projects such as Fedora, KDE, and BlueBuild, but it is not an official edition or product of those projects.
+The development image builds and is published to GHCR. Hardware validation, master visual assets, supported installation media, NVIDIA strategy, beta/stable channels and first-party Barq applications remain release work.
 
 ## License
 
-Repository code and configuration are licensed under the terms in [`LICENSE`](./LICENSE). Third-party software remains subject to its own licenses.
-
----
-
-**Barq OS**  
-**Built for the way you play.**
+Repository code and configuration are licensed under [`LICENSE`](LICENSE). Third-party software and trademarks remain subject to their respective terms.

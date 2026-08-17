@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: dnf
+install:
+  packages:
+    # Brand-aligned fonts from the official Fedora 44 repositories.
+    - rsms-inter-vf-fonts
+    - google-noto-sans-arabic-vf-fonts
+    - jetbrains-mono-fonts

@@ -13,6 +13,7 @@ image-version: 44
 modules:
   - from-file: common/system-files.yml
   - from-file: common/gaming.yml
+  - from-file: common/fonts.yml
   - from-file: common/applications.yml
 
   # Set Barq OS identity after all Fedora-aware build steps have completed.
