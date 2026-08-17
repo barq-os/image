@@ -11,3 +11,6 @@ configurations:
       - com.valvesoftware.Steam
       - com.heroicgameslauncher.hgl
       - net.davidotek.pupgui2
+      # Make Flatpak permissions visible and user-reviewable without granting
+      # any additional permissions by default.
+      - com.github.tchx84.Flatseal
