@@ -18,6 +18,7 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 
 - [x] GameMode, MangoHud and Gamescope
 - [x] Steam, Heroic and ProtonUp-Qt
+- [x] Flatseal permission inspection and an in-Plasma Barq Gaming launcher
 - [x] `steam-devices` host rules
 - [x] Fedora 44 `ntsync-autoload` integration
 - [ ] Validate Steam Flatpak ↔ GameMode D-Bus behavior
@@ -79,4 +80,4 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 
 ## Deferred experiments
 
-Custom kernels, automatic overclocking, AI optimizers, Plasma Union as a foundation, console mode and automatic per-game tuning are not required for 1.0.
+Custom kernels, automatic overclocking, AI optimizers, Plasma Union as a foundation and automatic per-game tuning are not required for 1.0. A full DRM Gamescope console session is a separate hardware-gated image feature; the 0.1 launcher stays inside Plasma.

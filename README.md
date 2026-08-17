@@ -22,6 +22,8 @@ ghcr.io/barq-os/barq:latest
 - Reproducible BlueBuild recipe and signed OCI image
 - GameMode, MangoHud, Gamescope, Steam device rules and Fedora 44 NTSYNC integration
 - Steam, Heroic and ProtonUp-Qt as user-scoped Flatpaks
+- Flatseal for explicit inspection of Flatpak permissions
+- Barq Gaming launcher for Steam's controller-first interface inside Plasma
 - Inter, Noto Sans Arabic and JetBrains Mono from Fedora repositories
 - Fedora 44 Plasma Login Manager with Barq wallpaper and supported KConfig defaults
 - Barq Dark colors, Plasma defaults, session splash and lock-screen continuity
@@ -64,6 +66,8 @@ See [installation and rollback instructions](docs/INSTALLATION.md).
 - [Roadmap](docs/ROADMAP.md)
 - [Brand reference](docs/BRAND.md)
 - [Fedora 44 identity implementation](docs/IDENTITY.md)
+- [Gaming integration and console-session gate](docs/GAMING.md)
+- [Deep technical report and code audit](docs/Barq_OS_Deep_Technical_Report_and_Code_2026-08-17.md)
 - [Installation and rollback](docs/INSTALLATION.md)
 - [Release policy](docs/RELEASE_POLICY.md)
 - [Validation matrix](docs/TEST_MATRIX.md)

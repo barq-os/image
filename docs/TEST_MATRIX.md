@@ -17,6 +17,7 @@ A successful CI build proves that the image can be assembled. It does not prove 
 | GPU | AMD and Intel baseline | Vulkan, suspend/resume and multi-monitor pass |
 | NVIDIA | Separate supported image only | Driver, MOK/Secure Boot, Vulkan and updates pass |
 | Gaming | DX11, DX12, Vulkan, OpenGL samples | Launch, controller, audio and frametime collection pass |
+| Barq Gaming | Steam stopped and already running | Launcher opens controller UI without ending Plasma; missing Steam produces an actionable error |
 | Flatpak | Steam, Heroic, ProtonUp-Qt | Install, update, external storage and sandbox behavior documented |
 | Controllers | Xbox, DualSense/DualShock, Nintendo where available | USB/Bluetooth, reconnect and resume pass |
 | Arabic | Plasma, Discover, Barq surfaces | No clipping; correct RTL order and readable fonts |

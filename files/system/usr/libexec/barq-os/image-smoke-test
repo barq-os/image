@@ -66,6 +66,15 @@ expect_file() {
   fi
 }
 
+expect_executable() {
+  local path="$1"
+  if [[ -x "$path" ]]; then
+    pass "executable $path"
+  else
+    fail "missing executable $path"
+  fi
+}
+
 expect_os_release ID barq
 expect_os_release ID_LIKE fedora
 expect_os_release VERSION_ID 44
@@ -114,9 +123,14 @@ for path in \
   /usr/share/icons/hicolor/scalable/apps/barq-os.svg \
   /usr/share/plasma/look-and-feel/org.barq.desktop/metadata.json \
   /usr/share/plymouth/themes/barq/barq.plymouth \
+  /usr/share/applications/org.barq.Gaming.desktop \
   /usr/share/wallpapers/Barq/contents/images/3840x2160.png; do
   expect_file "$path"
 done
+
+expect_executable /usr/libexec/barq-os/open-gaming-interface
+expect_file_contains /usr/share/applications/org.barq.Gaming.desktop \
+  "Exec=/usr/libexec/barq-os/open-gaming-interface"
 
 if systemctl is-enabled plasmalogin.service >/dev/null 2>&1; then
   pass "plasmalogin.service enabled"

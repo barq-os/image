@@ -30,7 +30,7 @@ KDE, drivers, system services, GameMode, Gamescope, MangoHud, `steam-devices`, `
 
 ### Flatpak
 
-Steam, Heroic and ProtonUp-Qt are user-scoped Flatpaks so applications can update independently. Flatpak sandbox permissions and matching runtime extensions remain explicit test boundaries.
+Steam, Heroic, ProtonUp-Qt and Flatseal are user-scoped Flatpaks so applications can update independently. Flatpak sandbox permissions and matching runtime extensions remain explicit test boundaries. The Barq Gaming launcher opens Steam's controller-first interface inside Plasma; it is not a separate DRM Gamescope session.
 
 ### User and development data
 

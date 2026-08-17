@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Barq Gaming
+Name[ar]=ألعاب Barq
+Comment=Open Steam's controller-first gaming interface
+Comment[ar]=افتح واجهة Steam المخصصة للكنترولر
+Exec=/usr/libexec/barq-os/open-gaming-interface
+Icon=barq-os
+Terminal=false
+Categories=Game;
+Keywords=Steam;Gaming;Gamepad;Controller;Console;
+StartupNotify=true

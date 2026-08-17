@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+app_id=com.valvesoftware.Steam
+
+show_error() {
+  local message="$1"
+
+  if command -v kdialog >/dev/null 2>&1; then
+    kdialog --title "Barq Gaming" --error "$message"
+  else
+    printf 'Barq Gaming: %s\n' "$message" >&2
+  fi
+}
+
+if ! command -v flatpak >/dev/null 2>&1; then
+  show_error "Flatpak is not available on this deployment."
+  exit 1
+fi
+
+if ! flatpak info --user "$app_id" >/dev/null 2>&1; then
+  show_error "Steam is not installed for this user yet. Finish the first-login Flatpak setup, then try again."
+  exit 1
+fi
+
+# Steam handles this URI whether it is already running or needs to start. This
+# opens the controller-first interface without ending the Plasma session.
+exec flatpak run "$app_id" steam://open/bigpicture

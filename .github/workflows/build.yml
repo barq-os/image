@@ -40,10 +40,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Validate test script syntax
-        run: |
-          bash -n tests/smoke.sh
-          bash -n files/system/usr/libexec/barq-os/image-smoke-test
+      - name: Validate repository policy and syntax
+        run: bash tests/repository.sh
 
       - name: Build Barq OS image
         uses: blue-build/github-action@836161eb076426a451e6a0054f722b1153b8b3ad # v1.12.0
