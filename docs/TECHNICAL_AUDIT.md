@@ -89,7 +89,7 @@ The size ceiling is a development guardrail, not a performance claim. Package re
 
 ### Identity
 
-The installed user-facing surfaces use Barq OS consistently: TTY, `os-release`, KInfoCenter, Plasma defaults, session splash, wallpaper, PLM and Plymouth. Fedora remains intentionally present in technical lineage and build configuration. Removing `ID_LIKE=fedora`, `VERSION_ID=44`, licenses or source attribution would reduce compatibility or violate project obligations rather than strengthen the brand.
+The installed user-facing surfaces use Barq OS consistently: TTY, `os-release`, KInfoCenter, Plasma defaults, session splash, wallpaper, PLM and Plymouth. `RELEASE_TYPE=development` matches the development product label and prevents consumers from treating this candidate as a production release. Fedora remains intentionally present in technical lineage and build configuration. Removing `ID_LIKE=fedora`, `VERSION_ID=44`, licenses or source attribution would reduce compatibility or violate project obligations rather than strengthen the brand.
 
 The current wordmark is temporary because the attached brand specification did not include a licensed master Barq Mark vector. No generic lightning mark or Hatter artwork was fabricated.
 
@@ -129,6 +129,7 @@ The repository cannot honestly close VM or hardware rows from container CI. A si
 - [BlueBuild files module](https://blue-build.org/reference/modules/files/)
 - [BlueBuild initramfs module](https://blue-build.org/reference/modules/initramfs/)
 - [BlueBuild os-release module](https://blue-build.org/reference/modules/os-release/)
+- [systemd `os-release` specification](https://www.freedesktop.org/software/systemd/man/os-release.html)
 - [KDE KInfoCenter branding](https://develop.kde.org/docs/administration/kinfocenter/)
 - [KDE Plasma 6 look-and-feel structure](https://develop.kde.org/docs/plasma/theme/theme-porting-to-plasma6/)
 - [Plasma Login Manager source](https://github.com/KDE/plasma-login-manager)

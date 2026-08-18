@@ -79,6 +79,7 @@ expect_os_release ID barq
 expect_os_release ID_LIKE fedora
 expect_os_release VERSION_ID 44
 expect_os_release VERSION "0.1 (Development)"
+expect_os_release RELEASE_TYPE development
 expect_os_release IMAGE_ID barq
 expect_os_release IMAGE_VERSION 0.1
 expect_os_release PRETTY_NAME "Barq OS Development"
