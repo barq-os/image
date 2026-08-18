@@ -25,6 +25,7 @@ jobs:
   bluebuild:
     name: Build and validate Barq OS
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     permissions:
       contents: read
       packages: write
@@ -41,6 +42,7 @@ jobs:
           persist-credentials: false
 
       - name: Validate repository policy and syntax
+        shell: bash
         run: bash tests/repository.sh
 
       - name: Build Barq OS image

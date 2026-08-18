@@ -13,6 +13,9 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 - [x] Add security, release, installation and validation policy
 - [x] Execute image-content validation before signing
 - [x] Verify an exact published digest with Cosign and `bootc container lint`
+- [x] Run repository-quality checks on every source and documentation change
+- [x] Record exact-image metadata and a sorted RPM package inventory
+- [x] Publish the Barq security model and future desktop-variant policy
 
 ## 0.2 — Gaming foundation
 
@@ -47,7 +50,9 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 
 - [x] Add a candidate ISO workflow requiring an exact signed development digest
 - [x] Produce checksum and Cosign signature alongside each candidate
-- [ ] Generate and preserve a candidate from a release-approved digest
+- [x] Generate and preserve the first signed 0.1 development candidate
+- [x] Enforce a 6 GiB candidate size budget and source-image metadata
+- [ ] Generate a new candidate from each release-approved digest
 - [ ] Test UEFI and Secure Boot on/off
 - [ ] Test partitioning, encryption and Plasma Setup
 - [ ] Test first update, rollback and reinstall
@@ -70,6 +75,13 @@ The roadmap is gate-driven. Dates never override build, hardware, rollback, secu
 - [ ] Promote exact digests through dev → beta → stable
 - [ ] Publish known issues and hardware results
 - [ ] Test upgrade and rollback across channel transitions
+- [ ] Generate a standards-format SPDX or CycloneDX SBOM and validate it
+
+## 0.9 — Additional desktop edition
+
+- [ ] Select a maintained Atomic base and owner for a second desktop
+- [ ] Create a separate recipe, image name, portal stack and identity variant
+- [ ] Pass an independent image, ISO, accessibility and hardware matrix
 
 ## 1.0 — Fajr / فجر
 

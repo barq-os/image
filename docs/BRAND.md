@@ -4,10 +4,12 @@
 
 **Barq OS** is the official product name. **Barq** comes from **برق** — lightning.
 
-> **Built for the way you play.**  
+> **Built for the way you play.**
+>
 > **مصمم لطريقتك في اللعب.**
 
-> **Energy in motion.**  
+> **Energy in motion.**
+>
 > **طاقة في حركة.**
 
 Barq OS is fast, refined and powerful. Its pillars are Performance, Play, Freedom and Control.
