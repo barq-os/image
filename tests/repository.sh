@@ -242,6 +242,18 @@ for item in required_order:
 if positions != sorted(positions) or len(set(positions)) != len(positions):
     fail(f"{recipe}: identity, validation and signing order is unsafe")
 
+identity = Path("recipes/common/identity.yml")
+identity_source = identity.read_text(encoding="utf-8")
+for field in [
+    "  ID: barq",
+    "  ID_LIKE: fedora",
+    "  VERSION: 0.1 (Development)",
+    "  RELEASE_TYPE: development",
+    '  IMAGE_VERSION: "0.1"',
+]:
+    if field not in identity_source:
+        fail(f"{identity}: missing required development identity {field!r}")
+
 for match in re.finditer(r"^  - from-file: (.+)$", recipe_source, re.MULTILINE):
     target = recipe.parent / match.group(1).strip().strip('"')
     if not target.is_file():

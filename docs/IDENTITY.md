@@ -32,7 +32,7 @@ Website=https://barqos.co
 ShowBuild=true
 ```
 
-This displays the Barq product version without lying to Fedora-aware tooling. `os-release` keeps `ID_LIKE=fedora` and `VERSION_ID=44`, while `VERSION`, `PRETTY_NAME` and `IMAGE_VERSION` describe Barq OS Development 0.1.
+This displays the Barq product version without lying to Fedora-aware tooling. `os-release` keeps `ID_LIKE=fedora` and `VERSION_ID=44`, while `VERSION`, `PRETTY_NAME` and `IMAGE_VERSION` describe Barq OS Development 0.1. `RELEASE_TYPE=development` explicitly tells compatible software that this image is not a production release.
 
 ### Plymouth is regenerated in the image
 

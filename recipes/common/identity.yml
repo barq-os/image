@@ -7,6 +7,7 @@ properties:
   ID_LIKE: fedora
   NAME: Barq OS
   VERSION: 0.1 (Development)
+  RELEASE_TYPE: development
   PRETTY_NAME: Barq OS Development
   IMAGE_ID: barq
   IMAGE_VERSION: "0.1"
