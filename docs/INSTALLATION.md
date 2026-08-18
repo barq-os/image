@@ -55,6 +55,16 @@ The `installer ISO candidate` workflow accepts only an exact `sha256:` image dig
 - the installer ISO;
 - the installer's generated checksum;
 - a normalized SHA-256 file;
-- a Cosign signature for the ISO.
+- a Cosign standardized bundle for the ISO signature;
+- metadata recording the source image digest, source commit and file size.
 
-Artifacts expire after 14 days and remain development candidates. Do not present an artifact as an official release until it passes the ISO, VM and physical-device gates in `TEST_MATRIX.md` and `RELEASE_POLICY.md`.
+The workflow rejects candidates larger than 6 GiB. Artifacts expire after 14 days and remain development candidates. Do not present an artifact as an official release until it passes the ISO, VM and physical-device gates in `TEST_MATRIX.md` and `RELEASE_POLICY.md`.
+
+Verify a downloaded candidate before booting it:
+
+```bash
+sha256sum --check Barq-OS-0.1-Development-x86_64.iso.sha256
+cosign verify-blob --key cosign.pub \
+  --bundle Barq-OS-0.1-Development-x86_64.iso.sigstore.json \
+  Barq-OS-0.1-Development-x86_64.iso
+```

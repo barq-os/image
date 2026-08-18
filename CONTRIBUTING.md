@@ -16,7 +16,15 @@ Barq OS is in early development. Contributions must keep the image maintainable,
 
 Document the problem, why it belongs in the image, affected hardware, update/rollback impact, security and licensing impact, test method, results and rollback plan.
 
-The BlueBuild PR workflow must pass. Hardware or gaming changes also require results using `docs/TEST_MATRIX.md`; CI alone is not proof of device or game compatibility.
+Run the source checks before opening a pull request:
+
+```bash
+bash tests/repository.sh
+```
+
+The repository-quality and BlueBuild PR workflows must pass. Hardware or gaming changes also require results using `docs/TEST_MATRIX.md`; CI alone is not proof of device or game compatibility. Do not mark VM or hardware gates as passed without the exact image digest and reproducible evidence.
+
+New host packages require a reason they cannot be delivered safely as Flatpaks, a size and service review, Fedora repository provenance, update/rollback analysis and removal instructions. External GitHub Actions must use immutable full commit SHAs.
 
 ## Secrets
 

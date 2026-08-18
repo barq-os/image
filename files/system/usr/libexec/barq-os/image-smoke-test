@@ -83,6 +83,9 @@ expect_os_release IMAGE_ID barq
 expect_os_release IMAGE_VERSION 0.1
 expect_os_release PRETTY_NAME "Barq OS Development"
 expect_os_release LOGO barq-os
+expect_os_release VARIANT "KDE Plasma"
+expect_os_release VARIANT_ID barq-kde
+expect_os_release DEFAULT_HOSTNAME barq
 
 packages=(
   gamemode
@@ -131,6 +134,8 @@ done
 expect_executable /usr/libexec/barq-os/open-gaming-interface
 expect_file_contains /usr/share/applications/org.barq.Gaming.desktop \
   "Exec=/usr/libexec/barq-os/open-gaming-interface"
+expect_file_contains /usr/share/plasma/look-and-feel/org.barq.desktop/metadata.json \
+  '"KPackageStructure": "Plasma/LookAndFeel"'
 
 if systemctl is-enabled plasmalogin.service >/dev/null 2>&1; then
   pass "plasmalogin.service enabled"

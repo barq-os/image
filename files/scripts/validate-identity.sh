@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 fail() {
   printf 'Barq identity validation failed: %s\n' "$1" >&2
@@ -49,5 +49,7 @@ test "${VERSION_ID-}" = 44 || fail "VERSION_ID is not 44"
 test "${VERSION-}" = "0.1 (Development)" || fail "VERSION is not Barq 0.1 Development"
 test "${IMAGE_VERSION-}" = 0.1 || fail "IMAGE_VERSION is not 0.1"
 test "${LOGO-}" = barq-os || fail "LOGO is not barq-os"
+test "${VARIANT-}" = "KDE Plasma" || fail "VARIANT is not KDE Plasma"
+test "${VARIANT_ID-}" = barq-kde || fail "VARIANT_ID is not barq-kde"
 
 printf 'Barq Fedora 44 identity validation passed.\n'

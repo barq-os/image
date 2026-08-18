@@ -26,6 +26,7 @@ jobs:
   verify:
     name: Verify signed image and runtime checks
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
       IMAGE_DIGEST: ${{ inputs.image_digest }}
       IMAGE_REF: ghcr.io/barq-os/barq@${{ inputs.image_digest }}
@@ -56,6 +57,29 @@ jobs:
       - name: Pull exact image
         shell: bash
         run: docker pull "$IMAGE_REF"
+
+      - name: Record image audit evidence
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          audit_dir=build/image-audit
+          mkdir -p "$audit_dir"
+          docker image inspect "$IMAGE_REF" > "$audit_dir/image-inspect.json"
+          docker image inspect --format '{{.Size}}' "$IMAGE_REF" > "$audit_dir/image-size-bytes.txt"
+          printf '%s\n' "$IMAGE_REF" > "$audit_dir/image-reference.txt"
+          docker run --rm --entrypoint /bin/bash "$IMAGE_REF" -lc \
+            'rpm -qa --qf "%{NAME}\t%{VERSION}-%{RELEASE}\t%{ARCH}\n" | LC_ALL=C sort' \
+            > "$audit_dir/rpm-packages.tsv"
+          docker run --rm --entrypoint /bin/bash "$IMAGE_REF" -lc \
+            'cat /etc/os-release' > "$audit_dir/os-release.txt"
+
+      - name: Upload image audit evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: barq-image-audit-${{ github.run_id }}
+          path: build/image-audit/
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Execute image checks
         shell: bash

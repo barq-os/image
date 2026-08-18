@@ -4,8 +4,9 @@ A successful CI build proves that the image can be assembled. It does not prove 
 
 | Gate | Minimum scope | Pass condition |
 |---|---|---|
+| Source quality | Every tracked source and document change | Format, metadata, recipe order, Action pins, assets, identity policy and launcher behavior pass |
 | Build | Complete recipe | BlueBuild succeeds; image-content checks run before signing |
-| Published image | Exact OCI digest | Cosign verification, installed image check and `bootc container lint` pass |
+| Published image | Exact OCI digest | Cosign verification, RPM inventory, image metadata, installed image check and `bootc container lint` pass |
 | Identity | `hostnamectl`, KInfoCenter, TTY | Barq OS and the temporary Barq fallback logo are visible; `ID_LIKE=fedora` and `VERSION_ID=44` remain |
 | Security baseline | Booted deployment | SELinux is Enforcing, Plasma uses Wayland and required portals are installed |
 | Plymouth | Boot, shutdown, reboot, LUKS prompt, offline update | Barq theme renders; text/input remains usable; no silent black screen |
@@ -21,11 +22,11 @@ A successful CI build proves that the image can be assembled. It does not prove 
 | Flatpak | Steam, Heroic, ProtonUp-Qt | Install, update, external storage and sandbox behavior documented |
 | Controllers | Xbox, DualSense/DualShock, Nintendo where available | USB/Bluetooth, reconnect and resume pass |
 | Arabic | Plasma, Discover, Barq surfaces | No clipping; correct RTL order and readable fonts |
-| ISO | Exact signed digest; VM and physical device | Signature, boot, install, encryption, first update and rollback pass |
+| ISO | Exact signed digest; VM and physical device | Signature, source metadata, size at or below 6 GiB, boot, install, encryption, first update and rollback pass |
 
 ## Automation boundary
 
-The build-time script validates the assembled filesystem. The published-image workflow validates a signed immutable digest in a container and runs `bootc container lint`. Neither check replaces a real UEFI boot, installer, update or rollback test.
+The source validator performs structural QML and Plymouth checks, not full rendering. The build-time script validates the assembled filesystem. The published-image workflow validates a signed immutable digest in a container and runs `bootc container lint`. None of these checks replaces a real UEFI boot, installer, update or rollback test.
 
 ## Hardware report
 

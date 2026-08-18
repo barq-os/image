@@ -14,13 +14,16 @@ Promote the exact OCI digest that passed testing. Do not rebuild different bits 
 
 ## Required gates
 
-1. BlueBuild succeeds with no critical warning.
-2. The exact published digest verifies with `cosign.pub`.
-3. Identity, host packages, boot, update, reboot and rollback checks pass.
-4. Steam, Proton, Heroic, controllers, audio and Flatpak permissions are tested.
-5. The hardware matrix records AMD and Intel results; NVIDIA requires its own supported image strategy.
-6. The ISO, when introduced, passes UEFI, Secure Boot, installation, encryption, update and rollback tests.
-7. Known issues and support boundaries are published.
+1. Repository-quality checks pass for every tracked source class.
+2. BlueBuild succeeds with no unresolved critical warning.
+3. The exact published digest verifies with `cosign.pub`; image metadata and RPM inventory are preserved.
+4. Identity, host packages, boot, update, reboot and rollback checks pass.
+5. Steam, Proton, Heroic, controllers, audio and Flatpak permissions are tested.
+6. The hardware matrix records AMD and Intel results; NVIDIA requires its own supported image strategy.
+7. The ISO stays within the 6 GiB development budget and passes UEFI, Secure Boot, installation, encryption, update and rollback tests.
+8. Known issues, security limitations, support window and recovery path are published.
+
+Automated checks must not be described as proof of universal compatibility or zero vulnerabilities. A failed gate blocks promotion; branding or a successful container build cannot waive runtime evidence.
 
 ## Version fields
 

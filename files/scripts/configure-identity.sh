@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 theme_dir=/usr/share/plymouth/themes/barq
 

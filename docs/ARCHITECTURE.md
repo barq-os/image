@@ -4,16 +4,13 @@
 
 Barq OS is a bootable, image-based Linux desktop built with BlueBuild on Fedora Kinoite and KDE Plasma. The product identity is Barq OS; Fedora remains the technical compatibility base.
 
-```text
-recipes + files/system + policy
-              ↓
-        BlueBuild CI
-              ↓
-      signed OCI image
-              ↓
-             GHCR
-              ↓
-  install / rebase / update / rollback
+```mermaid
+flowchart TD
+    A["Recipes, system files and policy"] --> B["Source validation"]
+    B --> C["BlueBuild image assembly"]
+    C --> D["Pre-signing image checks"]
+    D --> E["Signed OCI image in GHCR"]
+    E --> F["Install, update or rollback"]
 ```
 
 Current development image:
@@ -59,6 +56,8 @@ PLM does not support arbitrary SDDM-style QML themes. Barq therefore uses PLM's 
 
 Cosign verifies the OCI image in the registry. UEFI Secure Boot verifies the device boot chain and kernel modules. These are separate controls; a valid image signature is not proof that local third-party modules are enrolled or trusted.
 
+Digest-pinned verification records the image metadata, image size, `os-release` and a sorted RPM inventory as short-lived audit evidence. This evidence is not a replacement for a standards-format SBOM, Fedora advisories or vulnerability triage.
+
 ## Desktop direction
 
 Fedora 44 KDE installations use Plasma Login Manager and Plasma Setup. Barq is PLM-first and does not ship an SDDM theme. Existing Fedora installations that deliberately retained SDDM are treated as a migration case, not as the visual baseline. Plasma Union remains experimental and is not a Barq 1.0 dependency.
@@ -72,3 +71,5 @@ AMD and Intel follow Fedora's kernel and Mesa updates. NVIDIA must not be inject
 ## Release model
 
 Development, beta and stable channels promote the same tested digest instead of rebuilding different bits. See `RELEASE_POLICY.md` and `TEST_MATRIX.md`.
+
+KDE is the sole 0.1 edition. Future desktops require separate recipes, images and test matrices as defined in `VARIANTS.md`; they are not installed into the KDE image.
